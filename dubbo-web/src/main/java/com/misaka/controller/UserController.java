@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 //    @Autowired // 本地注入
-    @Reference(cluster = "failover")  // 远程注入
+    @Reference(mock = "force : return null")  // 远程注入
     private UserService userService;
 
 
