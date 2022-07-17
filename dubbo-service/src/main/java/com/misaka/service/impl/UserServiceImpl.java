@@ -12,8 +12,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(int id) {
-        System.out.println("old Version..");
+        System.out.println("1..");
         User user = new User(id, "misaka" + id, "123456" + id);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return user;
     }
