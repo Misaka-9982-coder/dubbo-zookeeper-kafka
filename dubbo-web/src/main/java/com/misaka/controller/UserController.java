@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 //    @Autowired // 本地注入
-    @Reference(timeout = 1000)  // 远程注入
+//    @Reference(version = "1.0.0")  // 远程注入
+    @Reference(version = "2.0.0")  // 远程注入
     private UserService userService;
 
 
@@ -24,20 +25,6 @@ public class UserController {
     int i = 1;
     @RequestMapping("/get")
     public User get(int id) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    System.out.println(i ++ );
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
         return userService.getUserById(id);
     }
 }
