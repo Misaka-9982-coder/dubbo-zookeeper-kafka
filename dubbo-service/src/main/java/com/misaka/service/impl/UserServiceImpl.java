@@ -1,7 +1,7 @@
 package com.misaka.service.impl;
 
 import com.misaka.service.UserService;
-import org.springframework.stereotype.Service;
+import org.apache.dubbo.config.annotation.Service;
 
 @Service
 public class UserServiceImpl implements UserService {

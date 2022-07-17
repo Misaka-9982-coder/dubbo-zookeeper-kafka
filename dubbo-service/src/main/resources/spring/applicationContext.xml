@@ -6,6 +6,10 @@
         http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <context:component-scan base-package="com.misaka.service" />
+<!--    <context:component-scan base-package="com.misaka.service" />-->
+
+    <dubbo:application name="dubbo-service" />
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:annotation package="com.misaka.service.impl" />
 
 </beans>
