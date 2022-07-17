@@ -4,10 +4,10 @@ import com.misaka.pojo.User;
 import com.misaka.service.UserService;
 import org.apache.dubbo.config.annotation.Service;
 
-@Service(version = "1.0.0")
+@Service(weight = 100)
 public class UserServiceImpl implements UserService {
     public String sayHello() {
-        return "Hello world!";
+        return "weight 100";
     }
 
     @Override

@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 //    @Autowired // 本地注入
-//    @Reference(version = "1.0.0")  // 远程注入
-    @Reference(version = "2.0.0")  // 远程注入
+    @Reference(loadbalance = "random")  // 远程注入
     private UserService userService;
 
 
