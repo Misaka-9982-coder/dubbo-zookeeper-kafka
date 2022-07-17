@@ -1,6 +1,7 @@
 package com.misaka.controller;
 
 import com.misaka.service.UserService;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+//    @Autowired // 本地注入
+    @Reference  // 远程注入
     private UserService userService;
 
 

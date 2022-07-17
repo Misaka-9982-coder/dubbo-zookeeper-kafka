@@ -12,4 +12,10 @@
 
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.misaka.controller"/>
+
+    <dubbo:application name="dubbo-web">
+        <dubbo:parameter key="qos.port" value="33333"/>
+    </dubbo:application>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:annotation package="com.misaka.controller" />
 </beans>
