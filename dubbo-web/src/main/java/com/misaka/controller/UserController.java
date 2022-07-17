@@ -1,5 +1,6 @@
 package com.misaka.controller;
 
+import com.misaka.pojo.User;
 import com.misaka.service.UserService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,10 @@ public class UserController {
     @RequestMapping("/sayHello")
     public String sayHello() {
         return userService.sayHello();
+    }
+
+    @RequestMapping("/get")
+    public User get(int id) {
+        return userService.getUserById(id);
     }
 }
