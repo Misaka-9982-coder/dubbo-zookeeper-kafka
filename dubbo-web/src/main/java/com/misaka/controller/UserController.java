@@ -21,8 +21,23 @@ public class UserController {
         return userService.sayHello();
     }
 
+    int i = 1;
     @RequestMapping("/get")
     public User get(int id) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    System.out.println(i ++ );
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
         return userService.getUserById(id);
     }
 }
