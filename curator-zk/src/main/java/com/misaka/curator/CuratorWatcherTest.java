@@ -6,8 +6,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.BackgroundCallback;
 import org.apache.curator.framework.api.CuratorEvent;
-import org.apache.curator.framework.recipes.cache.NodeCache;
-import org.apache.curator.framework.recipes.cache.NodeCacheListener;
+import org.apache.curator.framework.recipes.cache.*;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
@@ -67,6 +66,50 @@ public class CuratorWatcherTest {
         });
 
         nodeCache.start(true);
+
+        while(true) {
+            Thread.sleep(1000);
+        }
+    }
+
+    @Test
+    public void testPathChildrenCache() throws Exception {
+        final PathChildrenCache pathChildrenCache = new PathChildrenCache(build, "/app2", true);
+
+        pathChildrenCache.getListenable().addListener(new PathChildrenCacheListener() {
+            @Override
+            public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
+                System.out.println("pathChildrenCacheEvent:" + pathChildrenCacheEvent.getType());
+                String data = new String(pathChildrenCacheEvent.getData().getData());
+                switch (pathChildrenCacheEvent.getType()) {
+                    case CHILD_ADDED:
+                        System.out.println("CHILD_ADDED");
+
+                        System.out.println("pathChildrenCacheEvent:"
+                                + pathChildrenCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    case CHILD_REMOVED:
+                        System.out.println("CHILD_REMOVED");
+
+                        System.out.println("pathChildrenCacheEvent:"
+                                + pathChildrenCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    case CHILD_UPDATED:
+                        System.out.println("CHILD_UPDATED");
+
+                        System.out.println("pathChildrenCacheEvent:"
+                                + pathChildrenCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        pathChildrenCache.start();
 
         while(true) {
             Thread.sleep(1000);
