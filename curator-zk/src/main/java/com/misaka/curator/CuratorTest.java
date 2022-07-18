@@ -83,6 +83,24 @@ public class CuratorTest {
         System.out.println(stat);
     }
 
+    @Test
+    public void testModify1() throws Exception {
+        byte[] bytes = build.getData().forPath("/app1");
+        System.out.println(new String(bytes));
+        build.setData().forPath("/app1", "misaka".getBytes());
+        bytes = build.getData().forPath("/app1");
+        System.out.println(new String(bytes));
+    }
+
+    @Test
+    public void testModifyByVersion() throws Exception {
+        Stat stat = new Stat();
+        build.getData().storingStatIn(stat).forPath("/app1");
+        int version = stat.getVersion();
+
+        build.setData().withVersion(version).forPath("/app1", "misaka".getBytes());
+    }
+
     @After
     public void testClose() {
         if(build != null) {
