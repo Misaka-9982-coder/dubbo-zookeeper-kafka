@@ -6,9 +6,12 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 public class CuratorTest {
 
@@ -59,6 +62,25 @@ public class CuratorTest {
     public void testCreate4() throws Exception {
         String path = build.create().creatingParentContainersIfNeeded() .forPath("/app4/p1");
         System.out.println(path);
+    }
+
+    @Test
+    public void testGet1() throws Exception {
+        byte[] bytes = build.getData().forPath("/app1");
+        System.out.println(new String(bytes));
+    }
+
+    @Test
+    public void testGet2() throws Exception {
+        List<String> strings = build.getChildren().forPath("/app4");
+        System.out.println(strings);
+    }
+
+    @Test
+    public void testGet3() throws Exception {
+        Stat stat = new Stat();
+        build.getData().storingStatIn(stat).forPath("/app1");
+        System.out.println(stat);
     }
 
     @After
