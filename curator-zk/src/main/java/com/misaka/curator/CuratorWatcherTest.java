@@ -115,4 +115,48 @@ public class CuratorWatcherTest {
             Thread.sleep(1000);
         }
     }
+
+    @Test
+    public void testTreeCache() throws Exception {
+        final TreeCache treeCache = new TreeCache(build, "/app2");
+
+        treeCache.getListenable().addListener(new TreeCacheListener() {
+            @Override
+            public void childEvent(CuratorFramework curatorFramework, TreeCacheEvent treeCacheEvent) throws Exception {
+                System.out.println("treeCacheEvent:" + treeCacheEvent.getType());
+                String data = new String(treeCacheEvent.getData().getData());
+                switch (treeCacheEvent.getType()) {
+                    case NODE_ADDED:
+                        System.out.println("NODE_ADDED");
+
+                        System.out.println("treeCacheEvent:"
+                                + treeCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    case NODE_REMOVED:
+                        System.out.println("NODE_REMOVED");
+
+                        System.out.println("treeCacheEvent:"
+                                + treeCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    case NODE_UPDATED:
+                        System.out.println("NODE_UPDATED");
+
+                        System.out.println("treeCacheEvent:"
+                                + treeCacheEvent.getData().getPath() + " : "
+                                + data);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        treeCache.start();
+
+        while(true) {
+            Thread.sleep(1000);
+        }
+    }
 }
