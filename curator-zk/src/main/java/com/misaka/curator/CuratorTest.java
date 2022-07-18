@@ -4,6 +4,8 @@ package com.misaka.curator;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.api.BackgroundCallback;
+import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
@@ -99,6 +101,32 @@ public class CuratorTest {
         int version = stat.getVersion();
 
         build.setData().withVersion(version).forPath("/app1", "misaka".getBytes());
+    }
+
+    @Test
+    public void testDelete1() throws Exception {
+        build.delete().forPath("/app1");
+    }
+
+    @Test
+    public void testDelete2() throws Exception {
+        build.delete().deletingChildrenIfNeeded().forPath("/app4");
+    }
+
+    @Test
+    public void testDelete3() throws Exception {
+        build.delete().guaranteed().forPath("/app2");
+    }
+
+    @Test
+    public void testDelete4 () throws Exception {
+        build.delete().inBackground(new BackgroundCallback() {
+            @Override
+            public void processResult(CuratorFramework curatorFramework, CuratorEvent curatorEvent) throws Exception {
+                System.out.println(curatorFramework);
+                System.out.println(curatorEvent);
+            }
+        }).forPath("/app1");
     }
 
     @After
